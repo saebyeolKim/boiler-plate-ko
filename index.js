@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser');
-
+const cookieParser = require('cookie-parser');
 const config = require('./config/key')
 
 const { User } = require("./models/User");
@@ -11,10 +11,12 @@ const { User } = require("./models/User");
 app.use(bodyParser.urlencoded({extended: true}));
 //application/jason 분석해서 가져올 수 있게 해준다.
 app.use(bodyParser.json());
+//cookie에 있는 내용을 읽고 저장할 수 있다.
+app.use(cookieParser());
 
 const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI, {
-    useNewUrlParser: true, useUnifiedTopology: true
+    useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
@@ -58,7 +60,13 @@ app.post('/login', (req, res) => {
 
       //비밀번호까지 같다면 TOKEN을 생성한다.
       user.generateToken((err, user => {
+        if(err) return res.status(400).send(err);
         
+        //토큰을 저장한다. 어디에 ? 쿠키, 로컬스토리지
+        //쿠키에 저장한다.
+        res.cookie("x_auth", user.token)
+        .status(200)
+        .json({ loginSucces: true, userId: user._id })
       }))
     })
   })
