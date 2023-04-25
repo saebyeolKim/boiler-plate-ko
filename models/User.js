@@ -45,8 +45,20 @@ userSchema.pre('save', function(next){
                 next()
             });
         });
+    } else {
+        next()
     }
 })
+
+//비밀번호를 비교한다.
+userSchema.methos.comparePassword = function(painPassword, cb) {
+
+    //plainPassword 123456      암호화된 비밀번호 $2b$10$K2J1FPfEkHjCz2xb6RT27erIkCys6UPUf9CGPbauJt5mQty7dKRnK
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
+        if(err) return cb(err),
+            cb(null, isMatch)
+    })
+}
 
 const User = mongoose.model('User', userSchema)
 
