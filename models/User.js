@@ -72,7 +72,7 @@ userSchema.methods.generateToken = function(cb){
     })
 }
 
-userSchema.methods.findByToken = function( token, cb ) {
+userSchema.statics.findByToken = function( token, cb ) {
     var user = this;
 
     //토큰을 decode 한다.
@@ -80,12 +80,20 @@ userSchema.methods.findByToken = function( token, cb ) {
         //유저 아이디를 이용해서 유저를 찾은 다음에
         //클라이언트에서 가져온 토큰과 DB에 보관된 토큰이 일치하는지 확인한다.
         user.findOne({"_id": decoded, "token":token }, function(err, user){
-            if(err) return cb(err)
+            if(err) return cb(err);
             cb(null, user)
         })
-    });
+    })
 }
-
+/*
+메소드는 객체의 인스턴스를 만들어야만 사용이 가능하지만 
+스태틱은 객체의 인스턴스를 만들지 않아도 사용이 가능합니다. 
+코드를 보시면 
+const temp = new User() 이런식으로 선언하고난 뒤 
+temp.(메소드) 이런식으로 호출해야만 쓸 수 있는 것이 메소드고요.
+User.(스태틱) 이런식으로 호출할 수 있는 것이 스태틱입니다. 스태틱은 temp.(스태틱)을 형태로도 호출이 가능합니다. 
+스태틱은 인스턴스와 무관하게 공용적으로 자주 쓰이는 함수가 필요할 때 쓰이는 것 같습니다.
+*/
 const User = mongoose.model('User', userSchema)
 
 module.exports = {User}
