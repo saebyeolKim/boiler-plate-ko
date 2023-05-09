@@ -3,14 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { Provider } from 'react-redux';
 import 'antd/dist/antd.css'; //ant design
+import { applyMiddleware } from 'redux';
+import promiseMiddleWare from 'redux-promise';
+import ReducxThunk from 'redux-thunk';
+import Reducer from './_reducers'
+
+const createStoreWithMiddlware = applyMiddleware(promiseMiddleWare, ReducxThunk)(createStore)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider
+    store={createStoreWithMiddlware(Reducer,
+        //크롬 확장프로그램 Redux DevTools 설치 후 추가
+        window._REDUX_DEVTOOLS_EXTENSION_&&
+        window._REDUX_DEVTOOLS_EXTENSION_()
+      )}
+  >
     <App />
-  </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
