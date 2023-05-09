@@ -1,6 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import axios from 'axios';
 
 function LandingPage() {
+
+  //LandingPage 들어오자마자 실행하는 것
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/hello') //서버에 보내는 것
+    .then(response => console.log(response.data)) //서버에서 오는 response를 콘솔창에 띄움
+  }, [])
+  
+
   return (
     <div>
       LandingPage 랜딩페이지

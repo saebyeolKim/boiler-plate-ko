@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 5000;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config/key');
-const { auth } = require('../middleware/auth');
+const { auth } = require('./middleware/auth')
 const { User } = require("./models/User");
 
 //application/x-www-form-urlencoded 분석해서 가져올 수 있게 해준다.
@@ -23,6 +23,10 @@ mongoose.connect(config.mongoURI, {
 
 app.get('/', (req, res) => {
   res.send('Hello World! 안녕하세요 ~ 감사합니다 하튜')
+})
+
+app.get('/api/hello', (req, res) => {
+  res.send('안녕하세요');
 })
 
 app.post('/api/users/register', (req, res) => {
