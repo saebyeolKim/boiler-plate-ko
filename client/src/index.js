@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import 'antd/dist/antd.css'; //ant design
+//import 'antd/dist/antd.css'; //ant design 5버전으로 올라가면서 import 필요없어짐
 import { applyMiddleware } from 'redux';
 import promiseMiddleWare from 'redux-promise';
 import ReducxThunk from 'redux-thunk';
 import Reducer from './_reducers'
+import { createStore } from 'redux';
 
 const createStoreWithMiddlware = applyMiddleware(promiseMiddleWare, ReducxThunk)(createStore)
 
