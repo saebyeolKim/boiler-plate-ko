@@ -18,8 +18,8 @@ root.render(
   <Provider
     store={createStoreWithMiddlware(Reducer,
         //크롬 확장프로그램 Redux DevTools 설치 후 추가
-        window._REDUX_DEVTOOLS_EXTENSION_&&
-        window._REDUX_DEVTOOLS_EXTENSION_()
+        window.__REDUX_DEVTOOLS_EXTENSION__&&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
       )}
   >
     <App />
