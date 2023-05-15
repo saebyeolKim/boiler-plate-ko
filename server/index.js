@@ -5,6 +5,15 @@ const cookieParser = require('cookie-parser');
 const config = require('./config/key');
 const { auth } = require('./middleware/auth')
 const { User } = require("./models/User");
+const mysql = require('mysql');
+const db = mysql.createConnection({
+  host:'localhost',
+  user:'root',
+  password:'1234',
+  database:'giupin'
+})
+
+db.connect();
 
 //application/x-www-form-urlencoded 분석해서 가져올 수 있게 해준다.
 app.use(bodyParser.urlencoded({extended: true}));
@@ -99,6 +108,13 @@ app.get('/api/users/logout', auth, (req, res) => {
       })
     }
   )
+})
+
+app.get('/api/test', (req, res) => {
+  db.query('SELECT * FROM USER', function(err, results){
+    console.log(results);
+    res.end('Success');
+  })
 })
 
 const port = 5000;
